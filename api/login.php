@@ -2,7 +2,8 @@
 ob_start();
 
 session_start();
-include('../config/db.php');
+require '../config/db.php';
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     try{
         if (isset($_POST['username']) && isset($_POST['password'])) {

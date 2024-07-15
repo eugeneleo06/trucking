@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 15, 2024 at 09:08 AM
+-- Generation Time: Jul 15, 2024 at 05:51 AM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.1.25
+-- PHP Version: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -53,6 +53,13 @@ CREATE TABLE `kota` (
   `nama` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `kota`
+--
+
+INSERT INTO `kota` (`id`, `created_date`, `modified_date`, `secure_id`, `nama`) VALUES
+(1, '2024-07-15 03:47:12', '2024-07-15 03:47:12', 'eb45cb82-425c-11ef-9208-e89c2592bb8d', 'Jakarta Barat');
+
 -- --------------------------------------------------------
 
 --
@@ -82,6 +89,15 @@ CREATE TABLE `user` (
   `username` varchar(100) NOT NULL,
   `password` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `user`
+--
+
+INSERT INTO `user` (`id`, `created_date`, `modified_date`, `secure_id`, `role`, `username`, `password`) VALUES
+(1, '2024-07-15 00:23:49', '2024-07-15 00:56:04', '820b19fd-4240-11ef-9384-e89c2592bb8d', 'MASTER', 'master', '60860627d939017b5d02866ccab695da'),
+(2, '2024-07-15 00:43:31', '2024-07-15 00:43:31', '42361bc3-4243-11ef-9384-e89c2592bb8d', 'ADMIN', 'admin', 'c3284d0f94606de1fd2af172aba15bf3'),
+(3, '2024-07-15 00:43:31', '2024-07-15 00:43:31', '423629d8-4243-11ef-9384-e89c2592bb8d', 'MEMBER', 'member', '14d0f2bb475dbcdc51de4b406857fc62');
 
 -- --------------------------------------------------------
 
@@ -145,7 +161,7 @@ ALTER TABLE `katalog`
 -- AUTO_INCREMENT for table `kota`
 --
 ALTER TABLE `kota`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `mobil`
@@ -157,7 +173,7 @@ ALTER TABLE `mobil`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `vendor`
