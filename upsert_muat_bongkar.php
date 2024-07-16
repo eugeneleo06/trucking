@@ -48,7 +48,7 @@ require 'api/detail_muat_bongkar.php';
                       <?php
                       unset($_SESSION['error']); 
                       ?>
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-primary">Simpan</button>
                   </div>
                 </div>
 
@@ -62,6 +62,7 @@ require 'api/detail_muat_bongkar.php';
     </section>
 
   </main><!-- End #main -->
+  <script src="vendor/jquery/jquery.min.js"></script>
 
   <!-- ======= Footer ======= -->
   <?php

@@ -24,6 +24,7 @@ require 'layout/sidebar.php';
       </nav> -->
     </div><!-- End Page Title -->
 </main>
+<script src="vendor/jquery/jquery.min.js"></script>
 
 <?php
 require 'layout/footer.php';

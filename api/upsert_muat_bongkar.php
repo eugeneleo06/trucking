@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt = $db->prepare($sql);
             $stmt->bindParam(':nama', $nama, PDO::PARAM_STR);
             $stmt->bindParam(':secure_id', $secure_id, PDO::PARAM_STR);
-        $stmt->execute();
+            $stmt->execute();
             $exist = $stmt->fetchAll();
             if ($exist) {
                 $_SESSION['error'] = "Nama telah terdaftar";
@@ -49,8 +49,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt->execute();
             $exist = $stmt->fetchAll();
             if ($exist) {
-                $_SESSION['error'] = "Name telah terdaftar";
-                header('Location: ../upsert_muat_bongkar.php?q='.$secure_id);
+                $_SESSION['error'] = "Nama telah terdaftar";
+                header('Location: ../upsert_muat_bongkar.php');
                 exit;
             }
 

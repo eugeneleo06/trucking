@@ -1231,3 +1231,12 @@ h6 {
   font-size: 13px;
   color: #012970;
 }
+
+.edit-btn, .delete-btn {
+  color: black;
+}
+
+.edit-btn:hover, .delete-btn:hover {
+  color: #4154f1;
+  cursor: pointer;
+}

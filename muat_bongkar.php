@@ -28,9 +28,10 @@ require 'api/get_muat_bongkar.php';
             <div class="card-body" style="padding-top:3dvh;">
               <a href="upsert_muat_bongkar.php" class="btn btn-primary" style="margin-bottom:20px;">Tambah Data</a>
               <!-- Table with stripped rows -->
-              <table class="table datatable">
+              <table class="table datatable" id="dataTable">
                 <thead>
                   <tr>
+                    <th>No.</th>
                     <th>Nama</th>
                     <?php if ($_SESSION['role'] != "MEMBER"):?>
                     <th>Action</th>
@@ -39,14 +40,15 @@ require 'api/get_muat_bongkar.php';
                 </thead>
                 <tbody>
                   <?php
-                  foreach($kota as $v):
+                  foreach($kota as $i=>$v):
                     echo '<tr>';
-                      echo '<td>&nbsp;&nbsp;'.$v['nama'].'</td>';
+                      echo '<td>'.sprintf("%d", $i+1).'</td>';
+                      echo '<td>'.$v['nama'].'</td>';
                       if ($_SESSION['role'] != "MEMBER"):
                       echo '<td>';
-                      echo '<a style="text-decoration:none;color:black;" href="upsert_muat_bongkar.php?q='.$v['secure_id'].'"><i class="fas fa-lg fa-pencil-alt"></i></a>';
+                      echo '<a class="edit-btn" href="upsert_muat_bongkar.php?q='.$v['secure_id'].'"><i class="fas fa-lg fa-pencil-alt"></i></a>';
                       echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'; 
-                      echo '<a data-secure-id="'.$v['secure_id'].'"><i class="fas fa-lg fa-trash-alt"></i></a>';
+                      echo '<a class="delete-btn" data-secure-id="'.$v['secure_id'].'"><i class="fas fa-lg fa-trash-alt"></i></a>';
                       echo '</td>';
                       endif;
                     echo '</tr>';
@@ -62,9 +64,39 @@ require 'api/get_muat_bongkar.php';
         </div>
       </div>
     </section>
-
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Confirm Deletion</h5>
+                    <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button> -->
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete this?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <a href="#" id="confirmDelete" class="btn btn-danger">Delete</a>
+                </div>
+            </div>
+        </div>
+      </div>
   </main><!-- End #main -->
-
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script>
+        $(document).ready(function() {
+        $('.delete-btn').click(function(event) {
+            event.preventDefault();
+            var secureId = $(this).data('secure-id');
+            var deleteUrl = 'api/delete_muat_bongkar.php?q=' + secureId;
+            $('#confirmDelete').attr('href', deleteUrl);
+            $('#deleteModal').modal('show');
+        });
+    });
+    </script>
   <!-- ======= Footer ======= -->
   <?php
   require 'layout/footer.php';
+  
