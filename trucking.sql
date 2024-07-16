@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 15, 2024 at 05:51 AM
+-- Generation Time: Jul 16, 2024 at 05:51 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -24,41 +24,20 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `katalog`
+-- Table structure for table `list_harga`
 --
 
-CREATE TABLE `katalog` (
+CREATE TABLE `list_harga` (
   `id` int(11) NOT NULL,
   `created_date` timestamp NOT NULL DEFAULT current_timestamp(),
   `modified_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `secure_id` varchar(52) NOT NULL,
-  `kota_muat_id` int(11) NOT NULL,
-  `kota_tujuan_id` int(11) NOT NULL,
+  `muat_id` int(11) NOT NULL,
+  `bongkar_id` int(11) NOT NULL,
   `vendor_id` int(11) NOT NULL,
   `mobil_id` int(11) NOT NULL,
   `harga` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `kota`
---
-
-CREATE TABLE `kota` (
-  `id` int(11) NOT NULL,
-  `created_date` timestamp NOT NULL DEFAULT current_timestamp(),
-  `modified_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `secure_id` varchar(52) NOT NULL,
-  `nama` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `kota`
---
-
-INSERT INTO `kota` (`id`, `created_date`, `modified_date`, `secure_id`, `nama`) VALUES
-(1, '2024-07-15 03:47:12', '2024-07-15 03:47:12', 'eb45cb82-425c-11ef-9208-e89c2592bb8d', 'Jakarta Barat');
 
 -- --------------------------------------------------------
 
@@ -73,6 +52,36 @@ CREATE TABLE `mobil` (
   `secure_id` varchar(52) NOT NULL,
   `nama` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `mobil`
+--
+
+INSERT INTO `mobil` (`id`, `created_date`, `modified_date`, `secure_id`, `nama`) VALUES
+(1, '2024-07-16 00:37:42', '2024-07-16 00:39:10', '9c9b5f42-430b-11ef-aa22-e89c2592bb8d', 'Toyota'),
+(2, '2024-07-16 00:39:03', '2024-07-16 00:39:03', 'ccdf10f4-430b-11ef-8445-e89c2592bb8d', 'Mitsubishi');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `muat_bongkar`
+--
+
+CREATE TABLE `muat_bongkar` (
+  `id` int(11) NOT NULL,
+  `created_date` timestamp NOT NULL DEFAULT current_timestamp(),
+  `modified_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `secure_id` varchar(52) NOT NULL,
+  `nama` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `muat_bongkar`
+--
+
+INSERT INTO `muat_bongkar` (`id`, `created_date`, `modified_date`, `secure_id`, `nama`) VALUES
+(6, '2024-07-16 00:21:55', '2024-07-16 00:21:55', '67f635d4-4309-11ef-962c-e89c2592bb8d', 'Jakarta Barat'),
+(7, '2024-07-16 00:21:57', '2024-07-16 00:21:57', '698fc9e6-4309-11ef-b35a-e89c2592bb8d', 'Jakarta Timur');
 
 -- --------------------------------------------------------
 
@@ -110,29 +119,37 @@ CREATE TABLE `vendor` (
   `created_date` timestamp NOT NULL DEFAULT current_timestamp(),
   `modified_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `secure_id` varchar(52) NOT NULL,
+  `nama` varchar(100) NOT NULL,
   `mobil_id` varchar(100) NOT NULL COMMENT '["1","2"]'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `vendor`
+--
+
+INSERT INTO `vendor` (`id`, `created_date`, `modified_date`, `secure_id`, `nama`, `mobil_id`) VALUES
+(1, '2024-07-16 03:06:25', '2024-07-16 03:50:28', '63863e95-4320-11ef-8c61-e89c2592bb8d', 'Vendor A', '[\"1\",\"2\"]');
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `katalog`
+-- Indexes for table `list_harga`
 --
-ALTER TABLE `katalog`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `kota`
---
-ALTER TABLE `kota`
+ALTER TABLE `list_harga`
   ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `mobil`
 --
 ALTER TABLE `mobil`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `muat_bongkar`
+--
+ALTER TABLE `muat_bongkar`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -152,34 +169,34 @@ ALTER TABLE `vendor`
 --
 
 --
--- AUTO_INCREMENT for table `katalog`
+-- AUTO_INCREMENT for table `list_harga`
 --
-ALTER TABLE `katalog`
+ALTER TABLE `list_harga`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `kota`
---
-ALTER TABLE `kota`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `mobil`
 --
 ALTER TABLE `mobil`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `muat_bongkar`
+--
+ALTER TABLE `muat_bongkar`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `vendor`
 --
 ALTER TABLE `vendor`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
