@@ -41,7 +41,7 @@ require 'api/detail_vendor.php';
                 <div class="row mb-3">
                   <label for="select" class="col-sm-2 col-form-label">Mobil</label>
                   <div class="col-sm-10">
-                    <select required id="multi-select" name="mobil[]" multiple="multiple" class="form-control" required>
+                    <select required id="multi-select" name="mobil[]" multiple="multiple" class="form-select" required>
                         <?php
                         foreach($mobil as $v) {
                             echo '<option value="'.$v['id'].'"';

@@ -305,6 +305,22 @@
   // Call the dataTables jQuery plugin
   $(document).ready(function() {
     $('#dataTable').DataTable();
+
+    var customTable = $('#customDataTable').DataTable({
+      "sDom":"ltipr"
+    });
+
+    customTable.columns().every(function() {
+      var that = this;
+      // Use the footer input boxes for the search
+      $('input', this.header()).on('keyup change', function() {
+          if (that.search() !== this.value) {
+              that
+                  .search(this.value)
+                  .draw();
+          }
+      });
+    });
   });
 
 

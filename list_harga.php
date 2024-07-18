@@ -28,7 +28,7 @@ require 'api/get_list_harga.php';
             <div class="card-body" style="padding-top:3dvh;">
               <a href="upsert_vendor.php" class="btn btn-primary" style="margin-bottom:20px;">Tambah Data</a>
               <!-- Table with stripped rows -->
-              <table class="table datatable" id="customDataTable">
+              <table class="table datatable" id="dataTable">
                 <thead>
                   <tr>
                     <th>No.</th>
@@ -41,19 +41,10 @@ require 'api/get_list_harga.php';
                     <th>Action</th>
                     <?php endif;?>
                   </tr>
-                  <tr>
-                    <th></th>
-                    <th><input type="text" placeholder="Cari Muat" /></th>
-                    <th><input type="text" placeholder="Cari Bongkar" /></th>
-                    <th><input type="text" placeholder="Cari Vendor" /></th>
-                    <th><input type="text" placeholder="Cari Mobil" /></th>
-                    <th></th>
-                    <th></th>
-                </tr>
                 </thead>
                 <tbody>
                   <?php
-                  foreach($list_harga as $i=>$v):
+                  foreach($vendor as $i=>$v):
                     echo '<tr>';
                       echo '<td>'.sprintf("%d", $i+1).'</td>';
                       echo '<td>'.$v['muat'].'</td>';
