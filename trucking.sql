@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 16, 2024 at 05:51 AM
+-- Generation Time: Jul 19, 2024 at 02:02 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -39,6 +39,14 @@ CREATE TABLE `list_harga` (
   `harga` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `list_harga`
+--
+
+INSERT INTO `list_harga` (`id`, `created_date`, `modified_date`, `secure_id`, `muat_id`, `bongkar_id`, `vendor_id`, `mobil_id`, `harga`) VALUES
+(4, '2024-07-19 00:01:43', '2024-07-19 00:01:43', '14d8b614-4562-11ef-acaf-220b742ac1dc', 6, 7, 4, 6, 5000000),
+(5, '2024-07-19 00:01:54', '2024-07-19 00:01:54', '1bc3fcc2-4562-11ef-a92c-220b742ac1dc', 7, 6, 4, 5, 5000000);
+
 -- --------------------------------------------------------
 
 --
@@ -58,8 +66,9 @@ CREATE TABLE `mobil` (
 --
 
 INSERT INTO `mobil` (`id`, `created_date`, `modified_date`, `secure_id`, `nama`) VALUES
-(1, '2024-07-16 00:37:42', '2024-07-16 00:39:10', '9c9b5f42-430b-11ef-aa22-e89c2592bb8d', 'Toyota'),
-(2, '2024-07-16 00:39:03', '2024-07-16 00:39:03', 'ccdf10f4-430b-11ef-8445-e89c2592bb8d', 'Mitsubishi');
+(4, '2024-07-18 23:53:26', '2024-07-18 23:53:26', 'ed0ed3a8-4560-11ef-8367-220b742ac1dc', 'Toyota'),
+(5, '2024-07-19 00:00:49', '2024-07-19 00:00:49', 'f4faabfe-4561-11ef-9c50-220b742ac1dc', 'Honda'),
+(6, '2024-07-19 00:00:54', '2024-07-19 00:00:54', 'f7a7d4bc-4561-11ef-b57e-220b742ac1dc', 'Mitsubishi');
 
 -- --------------------------------------------------------
 
@@ -128,7 +137,8 @@ CREATE TABLE `vendor` (
 --
 
 INSERT INTO `vendor` (`id`, `created_date`, `modified_date`, `secure_id`, `nama`, `mobil_id`) VALUES
-(1, '2024-07-16 03:06:25', '2024-07-16 03:50:28', '63863e95-4320-11ef-8c61-e89c2592bb8d', 'Vendor A', '[\"1\",\"2\"]');
+(1, '2024-07-16 03:06:25', '2024-07-18 23:55:16', '63863e95-4320-11ef-8c61-e89c2592bb8d', 'Vendor A', '[\"4\"]'),
+(4, '2024-07-19 00:01:07', '2024-07-19 00:01:07', 'ffa20570-4561-11ef-9ab5-220b742ac1dc', 'Vendor B', '[\"4\",\"5\",\"6\"]');
 
 --
 -- Indexes for dumped tables
@@ -172,19 +182,19 @@ ALTER TABLE `vendor`
 -- AUTO_INCREMENT for table `list_harga`
 --
 ALTER TABLE `list_harga`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `mobil`
 --
 ALTER TABLE `mobil`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `muat_bongkar`
 --
 ALTER TABLE `muat_bongkar`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `user`
@@ -196,7 +206,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `vendor`
 --
 ALTER TABLE `vendor`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

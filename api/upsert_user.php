@@ -44,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt->bindParam(':username', $usn, PDO::PARAM_STR);
             $stmt->bindParam(':password', $pwd, PDO::PARAM_STR);
             $stmt->bindParam(':role', $role, PDO::PARAM_STR);
-            $stmt->bindParam(':secure_id', $secure_id, PDO::PARAM_INT);
+            $stmt->bindParam(':secure_id', $secure_id, PDO::PARAM_STR);
             $stmt->execute();
         } else {
 

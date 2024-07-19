@@ -33,10 +33,22 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         $sql = "SELECT * FROM list_harga WHERE mobil_id = :mobil_id";
         $stmt = $db->prepare($sql);
         $stmt->bindParam(':mobil_id', $mobil['id'], PDO::PARAM_INT);
+        $stmt->execute(); // Execute the prepared statement
         $list_harga = $stmt->fetchAll();
 
         if ($list_harga) {
             $_SESSION['error'] = "Silahkan hapus list harga yang berkaitan terlebih dahulu";
+            header('Location: ../mobil.php');
+            exit;
+        }
+
+        $sql = "SELECT * FROM vendor WHERE JSON_CONTAINS(mobil_ids,'\"".$mobil['id']."\"')";
+        $stmt = $db->prepare($sql);
+        $stmt->execute(); // Execute the prepared statement
+        $vendor = $stmt->fetchAll();
+
+        if ($vendor) {
+            $_SESSION['error'] = "Silahkan hapus vendor yang berkaitan terlebih dahulu";
             header('Location: ../mobil.php');
             exit;
         }

@@ -18,18 +18,12 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
         foreach($list_harga as $i=>$v) {
             # GET MOBIL
-            $mobilIds = json_decode($v['mobil_id']);
-            $mobilNames = array();
-            foreach ($mobilIds as $mobilId) {
-                $sql = "SELECT nama FROM mobil WHERE id = ".$mobilId;
-                $stmt = $db->query($sql);
-                $mobil = $stmt->fetchColumn();
-                if ($mobil) {
-                    $mobilNames[] = $mobil;
-                }
-            }
-            $mobilNamesCombined = implode(" - ", $mobilNames);
-            $list_harga[$i]['mobil'] = $mobilNamesCombined;
+            $sql = "SELECT nama FROM mobil WHERE id = :id";
+            $stmt = $db->prepare($sql);
+            $stmt->bindParam(':id', $list_harga[$i]['mobil_id'], PDO::PARAM_INT);
+            $stmt->execute();
+            $mobil = $stmt->fetchColumn();
+            $list_harga[$i]['mobil'] = $mobil;
 
 
             # GET MUAT

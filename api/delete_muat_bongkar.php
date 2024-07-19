@@ -30,10 +30,11 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             exit;
         }
 
-        $sql = "SELECT * FROM list_harga WHERE l.muat_id = :muat_id OR m.bongkar_id := bongkar_id ";
+        $sql = "SELECT * FROM list_harga l WHERE l.muat_id = :muat_id OR l.bongkar_id = :bongkar_id ";
         $stmt = $db->prepare($sql);
         $stmt->bindParam(':muat_id', $mb['id'], PDO::PARAM_INT);
         $stmt->bindParam(':bongkar_id', $mb['id'], PDO::PARAM_INT);
+        $stmt->execute(); // Execute the prepared statement
         $list_harga = $stmt->fetchAll();
 
         if ($list_harga) {

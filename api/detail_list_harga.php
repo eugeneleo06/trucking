@@ -15,6 +15,7 @@ require 'config/db.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
     try{
+        $mobilIds = [];
         if(isset($_GET['q'])) {
             $secure_id = htmlspecialchars($_GET['q']);
             $sql = 'SELECT * FROM list_harga WHERE secure_id = :secure_id';
@@ -22,8 +23,6 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             $stmt->bindParam(':secure_id', $secure_id, PDO::PARAM_STR);
             $stmt->execute();
             $list_harga = $stmt->fetch(PDO::FETCH_ASSOC);
-
-            $mobilIds = json_decode($list_harga['mobil_id']);
         }
 
         $sql = "SELECT * FROM muat_bongkar";
@@ -50,7 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                 $vendor_mobil_single = $stmt->fetch(); 
                 $vendor_mobil[] = $vendor_mobil_single;
             }
-            $mobil_vendor[$i] = $vendor_mobil;
+            $mobil_vendor[$v['id']] = $vendor_mobil;
         }
 
         $sql = "SELECT * FROM mobil";

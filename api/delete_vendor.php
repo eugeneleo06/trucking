@@ -33,6 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         $sql = "SELECT * FROM list_harga WHERE vendor_id = :vendor_id";
         $stmt = $db->prepare($sql);
         $stmt->bindParam(':vendor_id', $vendor['id'], PDO::PARAM_INT);
+        $stmt->execute(); // Execute the prepared statement
         $list_harga = $stmt->fetchAll();
 
         if ($list_harga) {

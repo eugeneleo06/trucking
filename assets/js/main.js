@@ -304,9 +304,12 @@
 
   // Call the dataTables jQuery plugin
   $(document).ready(function() {
-    $('#dataTable').DataTable();
+    $('#dataTable').DataTable({
+      responsive: true
+    });
 
     var customTable = $('#customDataTable').DataTable({
+      responsive: true,
       "sDom":"ltipr"
     });
 

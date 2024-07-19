@@ -27,7 +27,9 @@
   <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
   <!-- <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet"> -->
   <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+  <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
   <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
 
 
   <!-- Template Main CSS File -->

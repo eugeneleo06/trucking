@@ -60,7 +60,13 @@ require 'api/get_mobil.php';
 
             </div>
           </div>
-
+          <?php if (isset($_SESSION['error'])) : ?>
+              <hr>
+              <p style="color: red;"><?php echo $_SESSION['error']; ?></p>
+          <?php endif; ?>
+          <?php
+              unset($_SESSION['error']); 
+          ?>
         </div>
       </div>
     </section>

@@ -1232,11 +1232,27 @@ h6 {
   color: #012970;
 }
 
-.edit-btn, .delete-btn {
-  color: black;
+.edit-btn {
+  color: yellowgreen
+}
+
+.delete-btn {
+  color: red;
 }
 
 .edit-btn:hover, .delete-btn:hover {
-  color: #4154f1;
+  color: black;
   cursor: pointer;
 }
+
+.table-responsive {
+  overflow-x: auto;
+}
+
+#mobil {
+  font-weight: 400!important;
+}
+
+/* .select2-container--bootstrap-5 .select2-dropdown .select2-results__options .select2-results__option.select2-results__option--selected, .select2-container--bootstrap-5 .select2-dropdown .select2-results__options .select2-results__option[aria-selected=true]:not(.select2-results__option--highlighted) {
+  background-color: ;
+} */
