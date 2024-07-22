@@ -31,9 +31,15 @@ require 'api/get_user.php';
 
           <div class="card">
             <div class="card-body" style="padding-top:3dvh;">
+              <?php
+              if ($_SESSION['role']!="MEMBER"):
+              ?>
               <a href="upsert_user.php" class="btn btn-primary" style="margin-bottom:20px;">Tambah Data</a>
+              <?php
+              endif;
+              ?>
               <!-- Table with stripped rows -->
-              <table class="table datatable" id="dataTable">
+              <table class="table table-bordered table-striped  datatable" id="dataTable">
                 <thead>
                   <tr>
                     <th>No.</th>
@@ -79,19 +85,19 @@ require 'api/get_user.php';
     </section>
     <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
         <div class="modal-dialog">
-            <div class="modal-content">
+          <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="deleteModalLabel">Confirm Deletion</h5>
+                    <h5 class="modal-title" id="deleteModalLabel">Hapus Data</h5>
                     <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button> -->
                 </div>
                 <div class="modal-body">
-                    Are you sure you want to delete this?
+                    Apakah anda yakin ingin menghapus data ini?
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <a href="#" id="confirmDelete" class="btn btn-danger">Delete</a>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <a href="#" id="confirmDelete" class="btn btn-danger">Hapus</a>
                 </div>
             </div>
         </div>

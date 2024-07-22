@@ -24,7 +24,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $bongkar = htmlspecialchars($_POST["bongkar"]);
         $vendor = htmlspecialchars($_POST["vendor"]);
         $mobil = htmlspecialchars($_POST['mobil']);
-        $harga = htmlspecialchars($_POST['harga']);
+        $raw_harga = $_POST['harga'];
+        
+        // Remove all non-numeric characters
+        $clean_harga = preg_replace('/\D/', '', $raw_harga);
+        
+        // Convert to integer (optional, depending on your needs)
+        $harga = intval($clean_harga);
+        
 
         if (isset($_POST['secure_id']) && $_POST['secure_id'] != "") {
             $secure_id = htmlspecialchars($_POST['secure_id']);
@@ -42,7 +49,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt = $db->prepare($sql);
             $stmt->bindParam(':muat_id', $muat, PDO::PARAM_INT);
             $stmt->bindParam(':bongkar_id', $bongkar, PDO::PARAM_INT);
-            $stmt->bindParam(':vendor_id', $vendor, PDO::PARAM_INT);
+            $stmt->bindParam(':vendor_id
+            ', $vendor, PDO::PARAM_INT);
             $stmt->bindParam(':mobil_id', $mobil, PDO::PARAM_STR);
             $stmt->bindParam(':harga', $harga, PDO::PARAM_INT);
             $stmt->bindParam(':secure_id', Uuid::uuid1()->toString(), PDO::PARAM_STR);
@@ -50,7 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         unset($_SESSION['error']);
-        header('Location: ../index.php');
+        header('Location: ../list_harga.php');
         exit;
     } catch (PDOException $e) { 
         echo $e->getMessage();

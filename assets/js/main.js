@@ -302,29 +302,7 @@
   //   });
   // })
 
-  // Call the dataTables jQuery plugin
-  $(document).ready(function() {
-    $('#dataTable').DataTable({
-      responsive: true
-    });
 
-    var customTable = $('#customDataTable').DataTable({
-      responsive: true,
-      "sDom":"ltipr"
-    });
-
-    customTable.columns().every(function() {
-      var that = this;
-      // Use the footer input boxes for the search
-      $('input', this.header()).on('keyup change', function() {
-          if (that.search() !== this.value) {
-              that
-                  .search(this.value)
-                  .draw();
-          }
-      });
-    });
-  });
 
 
   /**
@@ -340,5 +318,45 @@
       }).observe(mainContainer);
     }, 200);
   }
+
+  // Call the dataTables jQuery plugin
+  $(document).ready(function() {
+    $('#dataTable').DataTable({
+      responsive: true,
+      "columnDefs": [
+          { "width": "3%", "targets": 0 }  // Set width of the "No." column
+      ],
+      "autoWidth": false  // Disable automatic column width calculation
+    });
+
+    var customTable = $('#customDataTable').DataTable({
+      // responsive: true,
+      "sDom":"ltipr",
+      "columnDefs": [
+        { "width": "3%", "targets": 0 }  // Set width of the "No." column
+      ],
+      "autoWidth": false  // Disable automatic column width calculation
+    });
+
+    customTable.columns().every(function() {
+      var that = this;
+      // Use the footer input boxes for the search
+      $('input', this.header()).on('keyup change', function() {
+          if (that.search() !== this.value) {
+              that
+                  .search(this.value)
+                  .draw();
+          }
+      });
+    });
+
+    $('#select-muat').selectpicker();
+    $('#select-bongkar').selectpicker();
+    $('#vendor').selectpicker();
+    $('#mobil').selectpicker();
+    $('#vendor-mobil').selectpicker();
+    $('#role').selectpicker();
+
+  });
 
 })();

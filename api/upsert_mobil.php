@@ -40,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $sql = "UPDATE mobil SET nama=:nama WHERE secure_id=:secure_id";
             $stmt = $db->prepare($sql);
             $stmt->bindParam(':nama', $nama, PDO::PARAM_STR);
-            $stmt->bindParam(':secure_id', $secure_id, PDO::PARAM_INT);
+            $stmt->bindParam(':secure_id', $secure_id, PDO::PARAM_STR);
             $stmt->execute();
         } else {
 

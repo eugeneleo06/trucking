@@ -21,7 +21,7 @@ require 'api/detail_vendor.php';
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Vendor</h1>
+      <h1>Pemilik Mobil</h1>
     </div><!-- End Page Title -->
 
     <section class="section">
@@ -41,7 +41,7 @@ require 'api/detail_vendor.php';
                 <div class="row mb-3">
                   <label for="select" class="col-sm-2 col-form-label">Mobil</label>
                   <div class="col-sm-10">
-                    <select required id="multi-select" name="mobil[]" multiple="multiple" class="form-select" required>
+                    <select required id="vendor-mobil" name="mobil[]" multiple class="w-100" required data-live-search="true" data-none-selected-text="Pilih Mobil">
                         <?php
                         foreach($mobil as $v) {
                             echo '<option value="'.$v['id'].'"';

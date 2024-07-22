@@ -7,124 +7,211 @@ if (!isset($_SESSION["username"])) {
   exit;
 }
 
+if ($_SESSION['role'] == "MEMBER") {
+    header('Location: mobil.php');
+    exit;
+}
+
 require 'layout/header.php';
 require 'layout/navbar.php';
 require 'layout/sidebar.php';
-require 'api/get_list_harga.php';
+require 'api/detail_list_harga.php';
+
+if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['muat'])) {
+  require 'config/db.php';
+  try {
+    $muat = $_GET['muat'];
+    $bongkar = $_GET['bongkar'];
+
+    $sql = 'SELECT * FROM list_harga WHERE muat_id = :muat_id AND bongkar_id = :bongkar_id';
+    if (isset($_GET['mobil'])) {
+      $sql .= " AND mobil_id = :mobil_id";
+    }
+    $stmt = $db->prepare($sql);
+    $stmt->bindParam(':muat_id', $muat, PDO::PARAM_INT);
+    $stmt->bindParam(':bongkar_id', $bongkar, PDO::PARAM_INT);
+
+    if (isset($_GET['mobil'])) {
+        $mobil = $_GET['mobil'];
+        $stmt->bindParam(':mobil_id', $mobil, PDO::PARAM_INT);
+    }
+    $stmt->execute();
+    $list_harga = $stmt->fetchAll();
+    foreach($list_harga as $i=>$v) {
+      $sql = "SELECT nama FROM mobil WHERE id = :id";
+      $stmt = $db->prepare($sql);
+      $stmt->bindParam(':id', $v['mobil_id'], PDO::PARAM_INT);
+      $stmt->execute();
+      $list_harga[$i]['mobil'] = $stmt->fetchColumn();
+
+      $sql = "SELECT nama FROM vendor WHERE id = :id";
+      $stmt = $db->prepare($sql);
+      $stmt->bindParam(':id', $v['vendor_id'], PDO::PARAM_INT);
+      $stmt->execute();
+      $list_harga[$i]['vendor'] = $stmt->fetchColumn();  
+    }
+  } 
+  catch (PDOException $e) { 
+    echo $e->getMessage();
+    exit;
+  }
+}
 
 ?>
-
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>List Harga</h1>
+      <h1>Home</h1>
     </div><!-- End Page Title -->
 
     <section class="section">
       <div class="row">
-        <div class="col-lg-12">
-
+        <div class="col-12">
           <div class="card">
-            <div class="card-body" style="padding-top:3dvh;">
-              <a href="upsert_list_harga.php" class="btn btn-primary" style="margin-bottom:20px;">Tambah Data</a>
-              <!-- Table with stripped rows -->
-              <div class="table-responsive">
-                <table class="table datatable" id="customDataTable">
-                  <thead>
-                    <tr>
-                      <th>No.</th>
-                      <th>Muat</th>
-                      <th>Bongkar</th>
-                      <th>Vendor</th>
-                      <th>Mobil</th>
-                      <th>Harga</th>
-                      <?php if ($_SESSION['role'] != "MEMBER"):?>
-                      <th>Action</th>
-                      <?php endif;?>
-                    </tr>
-                    <tr>
-                      <th></th>
-                      <th><input type="text" placeholder="Cari Muat" /></th>
-                      <th><input type="text" placeholder="Cari Bongkar" /></th>
-                      <th><input type="text" placeholder="Cari Vendor" /></th>
-                      <th><input type="text" placeholder="Cari Mobil" /></th>
-                      <th></th>
-                      <?php if ($_SESSION['role'] != "MEMBER"):?>
-                      <th></th>
-                      <?php endif;?>
-                  </tr>
-                  </thead>
-                  <tbody>
-                    <?php
-                    foreach($list_harga as $i=>$v):
-                      echo '<tr>';
-                        echo '<td>'.sprintf("%d", $i+1).'</td>';
-                        echo '<td>'.$v['muat'].'</td>';
-                        echo '<td>'.$v['bongkar'].'</td>';
-                        echo '<td>'.$v['vendor'].'</td>';
-                        echo '<td>'.$v['mobil'].'</td>';
-                        echo '<td>'.$v['harga'].'</td>';
-                        if ($_SESSION['role'] != "MEMBER"):
-                        echo '<td>';
-                        echo '<a class="edit-btn" href="upsert_list_harga.php?q='.$v['secure_id'].'"><i class="fas fa-lg fa-pencil-alt"></i></a>';
-                        echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'; 
-                        echo '<a class="delete-btn" data-secure-id="'.$v['secure_id'].'"><i class="fas fa-lg fa-trash-alt"></i></a>';
-                        echo '</td>';
-                        endif;
-                      echo '</tr>';
-                    endforeach;
-                    ?>
-                  </tbody>
-                </table>
+            <div class="card-body">
+              <!-- General Form Elements -->
+              <form method="get" action="#search-result">
+                <div class="row mb-3">
+                    <label for="select" class="col-sm-2 col-form-label">Muat</label>
+                    <div class="col-sm-10">
+                      <select required name="muat" class="w-100" data-live-search="true" id="select-muat" >
+                      <option disabled selected value>Pilih Muat</option>
+                          <?php
+                          foreach($muat_bongkar as $v) {
+                              echo '<option value="'.$v['id'].'"';
+                              echo '>'.$v['nama'].'</option>';
+                          }
+                          ?>
+                      </select>                  
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <label for="select" class="col-sm-2 col-form-label">Bongkar</label>
+                    <div class="col-sm-10">
+                      <select required name="bongkar" class="w-100" data-live-search="true" id="select-bongkar">
+                        <option disabled selected value>Pilih Bongkar</option>
+                          <?php
+                          foreach($muat_bongkar as $v) {
+                              echo '<option value="'.$v['id'].'"';
+                              echo '>'.$v['nama'].'</option>';
+                          }
+                          ?>
+                      </select>                  
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <label for="select" class="col-sm-2 col-form-label">Mobil (Opsional)</label>
+                    <div class="col-sm-10">
+                      <select name="mobil" class="w-100" data-live-search="true" id="mobil">
+                        <option disabled selected value>Pilih Mobil</option>
+                          <?php
+                          foreach($mobil as $v) {
+                              echo '<option value="'.$v['id'].'"';
+                              echo '>'.$v['nama'].'</option>';
+                          }
+                          ?>
+                      </select>                  
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <label class="col-sm-2 col-form-label"></label>
+                    <div class="col-sm-10">
+                        <?php if (isset($_SESSION['error'])) : ?>
+                            <p style="color: red;"><?php echo $_SESSION['error']; ?></p>
+                        <?php endif; ?>
+                        <?php
+                        unset($_SESSION['error']); 
+                        ?>
+                      <button type="submit" class="btn btn-primary" style="width: 100px;">Cari</button>
+                  </div>
+                </div>
+              </form><!-- End General Form Elements -->
+              <hr>
+              <div id="search-result">
+                <?php
+                if(isset($list_harga)):
+                  foreach($list_harga as $v){
+                    echo '<div class="card-body" style="border:2px solid black;border-radius:3px">';
+                      echo '<div class="row">';
+                        echo '<div class="col-sm-2 col-3">';
+                        echo '<strong>Mobil</strong>';
+                        echo '</div>';
+                        echo '<div class="col-sm-10 col-9">';
+                        echo $v['mobil'];
+                        echo '</div>';
+
+                        echo '<div class="col-sm-2 col-3">';
+                        echo '<strong>Pemilik Mobil</strong>';
+                        echo '</div>';
+                        echo '<div class="col-sm-10 col-9">';
+                        echo $v['vendor'];
+                        echo '</div>';
+
+                        echo '<div class="col-sm-2 col-3">';
+                        echo '<strong>Harga</strong>';
+                        echo '</div>';
+                        echo '<div class="col-sm-10 col-9">';
+                ?>
+                <span id="harga-span">
+                <?php echo $v['harga'];?>
+                </span>
+                <?php
+                        echo '</div>';
+                      echo '</div>';
+                    echo '</div>';
+                  }
+                endif;
+                ?>
               </div>
-              
-              <!-- End Table with stripped rows -->
 
             </div>
           </div>
-          <?php if (isset($_SESSION['error'])) : ?>
-              <hr>
-              <p style="color: red;"><?php echo $_SESSION['error']; ?></p>
-          <?php endif; ?>
-          <?php
-              unset($_SESSION['error']); 
-          ?>
+
         </div>
       </div>
     </section>
-    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deleteModalLabel">Confirm Deletion</h5>
-                    <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button> -->
-                </div>
-                <div class="modal-body">
-                    Are you sure you want to delete this?
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <a href="#" id="confirmDelete" class="btn btn-danger">Delete</a>
-                </div>
-            </div>
-        </div>
-      </div>
+
   </main><!-- End #main -->
   <script src="vendor/jquery/jquery.min.js"></script>
   <script>
-        $(document).ready(function() {
-        $('.delete-btn').click(function(event) {
-            event.preventDefault();
-            var secureId = $(this).data('secure-id');
-            var deleteUrl = 'api/delete_list_harga.php?q=' + secureId;
-            $('#confirmDelete').attr('href', deleteUrl);
-            $('#deleteModal').modal('show');
-        });
+    function formatNumberWithSeparator(number) {
+      return new Intl.NumberFormat('id-ID').format(number);
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+      const selectMuat = document.getElementById('select-muat');
+      const selectBongkar = document.getElementById('select-bongkar');
+
+      function updateOptions() {
+        const muatValue = selectMuat.value;
+        const bongkarValue = selectBongkar.value;
+
+        for (let i = 0; i < selectBongkar.options.length; i++) {
+          const option = selectBongkar.options[i];
+          option.disabled = (option.value === muatValue || option.value == "");
+        }
+
+        for (let i = 0; i < selectMuat.options.length; i++) {
+          const option = selectMuat.options[i];
+          option.disabled = (option.value === bongkarValue || option.value == "");
+        }
+
+        $('#select-muat').selectpicker('refresh');
+        $('#select-bongkar').selectpicker('refresh');
+      }
+
+      selectMuat.addEventListener('change', updateOptions);
+      selectBongkar.addEventListener('change', updateOptions);
+
+      // Initialize the options on page load
+      updateOptions();
+
+      const harga = document.getElementById('harga-span');
+      harga.innerHTML = 'Rp'+formatNumberWithSeparator(harga.innerHTML);
     });
-    </script>
+  </script>
   <!-- ======= Footer ======= -->
   <?php
   require 'layout/footer.php';
-  

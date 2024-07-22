@@ -26,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         $list_harga = $stmt->fetch();
         if (!$list_harga) {
             $_SESSION['error'] = "Data tidak ditemukan";
-            header('Location: ../index.php');
+            header('Location: ../list_harga.php');
             exit;
         }
 
@@ -36,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         $stmt->execute();
 
         unset($_SESSION['error']);
-        header('Location: ../index.php');
+        header('Location: ../list_harga.php');
         exit;
     } catch (PDOException $e) { 
         echo $e->getMessage();

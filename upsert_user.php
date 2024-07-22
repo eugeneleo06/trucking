@@ -40,7 +40,7 @@ require 'api/detail_user.php';
                 <div class="row mb-3">
                   <label for="inputText" class="col-sm-2 col-form-label">Role</label>
                   <div class="col-sm-10">
-                    <select required class="form-select" name="role">
+                    <select required class="w-100" name="role" data-none-selected-text="Pilih Role" id="role" data-live-search="true">
                       <option disabled selected value>Pilih Role</option>
                       <option value="MASTER"
                         <?php
