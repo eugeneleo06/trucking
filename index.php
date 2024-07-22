@@ -134,7 +134,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['muat'])) {
                 <?php
                 if(isset($list_harga)):
                   foreach($list_harga as $v){
-                    echo '<div class="card-body" style="border:2px solid black;border-radius:3px">';
+                    echo '<div class="card-body" style="border:2px solid black;border-radius:3px;margin-bottom:3vh;">';
                       echo '<div class="row">';
                         echo '<div class="col-sm-2 col-3">';
                         echo '<strong>Mobil</strong>';
@@ -155,7 +155,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['muat'])) {
                         echo '</div>';
                         echo '<div class="col-sm-10 col-9">';
                 ?>
-                <span id="harga-span">
+                <span class="harga-span">
                 <?php echo $v['harga'];?>
                 </span>
                 <?php
@@ -208,8 +208,10 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['muat'])) {
       // Initialize the options on page load
       updateOptions();
 
-      const harga = document.getElementById('harga-span');
-      harga.innerHTML = 'Rp'+formatNumberWithSeparator(harga.innerHTML);
+      const harga = document.getElementsByClassName('harga-span');
+      for (let i =0; i<harga.length;i++) {
+        harga[i].innerHTML = 'Rp'+formatNumberWithSeparator(harga[i].innerHTML);
+      }
     });
   </script>
   <!-- ======= Footer ======= -->
