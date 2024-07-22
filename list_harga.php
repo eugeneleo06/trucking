@@ -116,7 +116,7 @@ require 'api/get_list_harga.php';
                 </div>
             </div>
         </div>
-      </div>
+    </div>
   </main><!-- End #main -->
   <script src="vendor/jquery/jquery.min.js"></script>
   <script>
