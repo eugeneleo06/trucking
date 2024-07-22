@@ -77,6 +77,11 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['submit'])) {
   }
 }
 
+
+$selectedMuat = isset($_GET['muat']) ? $_GET['muat'] : '';
+$selectedBongkar = isset($_GET['bongkar']) ? $_GET['bongkar'] : '';
+$selectedVendor = isset($_GET['vendor']) ? $_GET['vendor'] : '';
+$selectedMobil = isset($_GET['mobil']) ? $_GET['mobil'] : '';
 ?>
   <main id="main" class="main">
 
@@ -90,136 +95,105 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['submit'])) {
           <div class="card">
             <div class="card-body">
               <!-- General Form Elements -->
-              <form method="get" action="" onsubmit="return validateForm()">
-                <div class="row mb-3">
-                    <label for="select" class="col-sm-2 col-form-label">Muat</label>
-                    <div class="col-sm-10">
-                      <select name="muat" class="w-100" data-live-search="true" id="select-muat" >
-                      <option disabled selected value>Pilih Muat</option>
-                          <?php
-                          foreach($muat_bongkar as $v) {
-                              echo '<option value="'.$v['id'].'"';
-                              echo '>'.$v['nama'].'</option>';
-                          }
-                          ?>
-                      </select>                  
-                    </div>
+              <form method="get" action="#search-result" onsubmit="return validateForm()">
+                  <div class="row mb-3">
+                      <label for="select-muat" class="col-sm-2 col-form-label">Muat</label>
+                      <div class="col-sm-10">
+                          <select name="muat" class="w-100" data-live-search="true" id="select-muat" onchange="updateQueryParams()">
+                              <option disabled selected value>Pilih Muat</option>
+                              <?php
+                              foreach ($muat_bongkar as $v) {
+                                  $selected = $v['id'] == $selectedMuat ? 'selected' : '';
+                                  echo '<option value="' . $v['id'] . '" ' . $selected . '>' . $v['nama'] . '</option>';
+                              }
+                              ?>
+                          </select>
+                      </div>
                   </div>
 
                   <div class="row mb-3">
-                    <label for="select" class="col-sm-2 col-form-label">Bongkar</label>
-                    <div class="col-sm-10">
-                      <select name="bongkar" class="w-100" data-live-search="true" id="select-bongkar">
-                        <option disabled selected value>Pilih Bongkar</option>
-                          <?php
-                          foreach($muat_bongkar as $v) {
-                              echo '<option value="'.$v['id'].'"';
-                              echo '>'.$v['nama'].'</option>';
-                          }
-                          ?>
-                      </select>                  
-                    </div>
+                      <label for="select-bongkar" class="col-sm-2 col-form-label">Bongkar</label>
+                      <div class="col-sm-10">
+                          <select name="bongkar" class="w-100" data-live-search="true" id="select-bongkar" onchange="updateQueryParams()">
+                              <option disabled selected value>Pilih Bongkar</option>
+                              <?php
+                              foreach ($muat_bongkar as $v) {
+                                  $selected = $v['id'] == $selectedBongkar ? 'selected' : '';
+                                  echo '<option value="' . $v['id'] . '" ' . $selected . '>' . $v['nama'] . '</option>';
+                              }
+                              ?>
+                          </select>
+                      </div>
                   </div>
 
                   <div class="row mb-3">
-                    <label for="select" class="col-sm-2 col-form-label">Pemilik Mobil</label>
-                    <div class="col-sm-10">
-                      <select name="vendor" class="w-100" data-live-search="true" id="vendor">
-                        <option disabled selected value>Pilih Pemilik Mobil</option>
-                          <?php
-                          foreach($vendor as $v) {
-                              echo '<option value="'.$v['id'].'"';
-                              echo '>'.$v['nama'].'</option>';
-                          }
-                          ?>
-                      </select>                  
-                    </div>
+                      <label for="vendor" class="col-sm-2 col-form-label">Pemilik Mobil</label>
+                      <div class="col-sm-10">
+                          <select name="vendor" class="w-100" data-live-search="true" id="vendor" onchange="updateQueryParams()">
+                              <option disabled selected value>Pilih Pemilik Mobil</option>
+                              <?php
+                              foreach ($vendor as $v) {
+                                  $selected = $v['id'] == $selectedVendor ? 'selected' : '';
+                                  echo '<option value="' . $v['id'] . '" ' . $selected . '>' . $v['nama'] . '</option>';
+                              }
+                              ?>
+                          </select>
+                      </div>
                   </div>
 
                   <div class="row mb-3">
-                    <label for="select" class="col-sm-2 col-form-label">Mobil</label>
-                    <div class="col-sm-10">
-                      <select name="mobil" class="w-100" data-live-search="true" id="mobil">
-                        <option disabled selected value>Pilih Mobil</option>
-                          <?php
-                          foreach($mobil as $v) {
-                              echo '<option value="'.$v['id'].'"';
-                              echo '>'.$v['nama'].'</option>';
-                          }
-                          ?>
-                      </select>                  
-                    </div>
+                      <label for="mobil" class="col-sm-2 col-form-label">Mobil</label>
+                      <div class="col-sm-10">
+                          <select name="mobil" class="w-100" data-live-search="true" id="mobil" onchange="updateQueryParams()">
+                              <option disabled selected value>Pilih Mobil</option>
+                              <?php
+                              foreach ($mobil as $v) {
+                                  $selected = $v['id'] == $selectedMobil ? 'selected' : '';
+                                  echo '<option value="' . $v['id'] . '" ' . $selected . '>' . $v['nama'] . '</option>';
+                              }
+                              ?>
+                          </select>
+                      </div>
                   </div>
 
                   <div class="row mb-3">
-                    <label class="col-sm-2 col-form-label"></label>
-                    <div class="col-sm-10">
-                      <input type="hidden" name="submit" value='1'>
-                        <?php if (isset($_SESSION['error'])) : ?>
-                            <p style="color: red;"><?php echo $_SESSION['error']; ?></p>
-                        <?php endif; ?>
-                        <?php
-                        unset($_SESSION['error']); 
-                        ?>
-                      <button type="submit" class="btn btn-primary" style="width: 100px;">Cari</button>
+                      <label class="col-sm-2 col-form-label"></label>
+                      <div class="col-sm-10">
+                          <input type="hidden" name="submit" value='1'>
+                          <?php if (isset($_SESSION['error'])) : ?>
+                              <p style="color: red;"><?php echo $_SESSION['error']; ?></p>
+                          <?php endif; ?>
+                          <?php unset($_SESSION['error']); ?>
+                          <button type="submit" class="btn btn-primary" style="width: 100px;">Cari</button>
+                      </div>
                   </div>
-                </div>
-              </form><!-- End General Form Elements -->
+              </form>
               <hr>
-              <div id="search-result">
+              <div id="search-result" class="container mt-4">
                 <?php
                 if(isset($list_harga)):
-                  if (count($list_harga) == 0) {
-                    echo '<h5 style="text-align:center">Data tidak ditemukan</h5>';
-                  }
-                  foreach($list_harga as $v){
-                    echo '<div class="card-body" style="border:2px solid black;border-radius:3px;margin-bottom:3vh;">';
-                      echo '<div class="row">';
-                        echo '<div class="col-sm-2 col-3">';
-                        echo '<strong>Muat</strong>';
+                    if (count($list_harga) == 0) {
+                        echo '<h5 class="text-center">Data tidak ditemukan</h5>';
+                    }
+                    foreach($list_harga as $v){
+                        echo '<div class="card mb-3 custom-card">';
+                            echo '<div class="card-body">';
+                                echo '<div class="row">';
+                                    echo '<div class="col-md-6">';
+                                        echo '<p><strong>Muat:</strong> ' . $v['muat'] . '</p>';
+                                        echo '<p><strong>Bongkar:</strong> ' . $v['bongkar'] . '</p>';
+                                    echo '</div>';
+                                    echo '<div class="col-md-6">';
+                                        echo '<p><strong>Pemilik Mobil:</strong> ' . $v['vendor'] . '</p>';
+                                        echo '<p><strong>Mobil:</strong> ' . $v['mobil'] . '</p>';
+                                        echo '<p><strong>Harga:</strong> <span class="custom-harga-span">' . $v['harga'] . '</span></p>';
+                                    echo '</div>';
+                                echo '</div>';
+                            echo '</div>';
                         echo '</div>';
-                        echo '<div class="col-sm-10 col-9">';
-                        echo $v['muat'];
-                        echo '</div>';
-
-                        echo '<div class="col-sm-2 col-3">';
-                        echo '<strong>Bongkar</strong>';
-                        echo '</div>';
-                        echo '<div class="col-sm-10 col-9">';
-                        echo $v['bongkar'];
-                        echo '</div>';
-
-                        echo '<div class="col-sm-2 col-3">';
-                        echo '<strong>Pemilik Mobil</strong>';
-                        echo '</div>';
-                        echo '<div class="col-sm-10 col-9">';
-                        echo $v['vendor'];
-                        echo '</div>';
-
-                        echo '<div class="col-sm-2 col-3">';
-                        echo '<strong>Mobil</strong>';
-                        echo '</div>';
-                        echo '<div class="col-sm-10 col-9">';
-                        echo $v['mobil'];
-                        echo '</div>';
-
-                        echo '<div class="col-sm-2 col-3">';
-                        echo '<strong>Harga</strong>';
-                        echo '</div>';
-                        echo '<div class="col-sm-10 col-9">';
-                ?>
-                <span class="harga-span">
-                <?php echo $v['harga'];?>
-                </span>
-                <?php
-                        echo '</div>';
-                      echo '</div>';
-                    echo '</div>';
-                  }
+                    }
                 endif;
                 ?>
-              </div>
-
             </div>
           </div>
 
@@ -276,7 +250,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['submit'])) {
       // Initialize the options on page load
       updateOptions();
 
-      const harga = document.getElementsByClassName('harga-span');
+      const harga = document.getElementsByClassName('custom-harga-span');
       for (let i =0; i<harga.length;i++) {
         harga[i].innerHTML = 'Rp'+formatNumberWithSeparator(harga[i].innerHTML);
       }
@@ -300,6 +274,37 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['submit'])) {
         }
 
         return true;
+    }
+
+    function updateQueryParams() {
+        var muat = document.getElementById('select-muat').value;
+        var bongkar = document.getElementById('select-bongkar').value;
+        var vendor = document.getElementById('vendor').value;
+        var mobil = document.getElementById('mobil').value;
+        var params = new URLSearchParams(window.location.search);
+
+        if (muat) {
+            params.set('muat', muat);
+        } else {
+            params.delete('muat');
+        }
+        if (bongkar) {
+            params.set('bongkar', bongkar);
+        } else {
+            params.delete('bongkar');
+        }
+        if (vendor) {
+            params.set('vendor', vendor);
+        } else {
+            params.delete('vendor');
+        }
+        if (mobil) {
+            params.set('mobil', mobil);
+        } else {
+            params.delete('mobil');
+        }
+
+        window.history.replaceState({}, '', `${window.location.pathname}?${params}`);
     }
   </script>
   <!-- ======= Footer ======= -->
