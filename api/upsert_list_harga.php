@@ -32,6 +32,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Convert to integer (optional, depending on your needs)
         $harga = intval($clean_harga);
         
+        $sql = "SELECT * FROM list_harga WHERE muat_id = :muat_id AND bongkar_id = :bongkar_id AND vendor_id = :vendor_id AND mobil_id = :mobil_id";
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam(':muat_id', $muat, PDO::PARAM_INT);
+        $stmt->bindParam(':bongkar_id', $bongkar, PDO::PARAM_INT);
+        $stmt->bindParam(':vendor_id', $vendor, PDO::PARAM_INT);
+        $stmt->bindParam(':mobil_id', $mobil, PDO::PARAM_INT);
+        $stmt->execute();
+        $duplicate = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        if ($duplicate) {
+            $_SESSION['error'] = "Data sudah terdaftar";
+            header('Location: ../upsert_list_harga.php?q='.$secure_id);
+            exit;
+        }
 
         if (isset($_POST['secure_id']) && $_POST['secure_id'] != "") {
             $secure_id = htmlspecialchars($_POST['secure_id']);
@@ -49,8 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt = $db->prepare($sql);
             $stmt->bindParam(':muat_id', $muat, PDO::PARAM_INT);
             $stmt->bindParam(':bongkar_id', $bongkar, PDO::PARAM_INT);
-            $stmt->bindParam(':vendor_id
-            ', $vendor, PDO::PARAM_INT);
+            $stmt->bindParam(':vendor_id', $vendor, PDO::PARAM_INT);
             $stmt->bindParam(':mobil_id', $mobil, PDO::PARAM_STR);
             $stmt->bindParam(':harga', $harga, PDO::PARAM_INT);
             $stmt->bindParam(':secure_id', Uuid::uuid1()->toString(), PDO::PARAM_STR);

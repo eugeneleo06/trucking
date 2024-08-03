@@ -7,11 +7,6 @@ if (!isset($_SESSION["username"])) {
   exit;
 }
 
-if ($_SESSION['role'] == "MEMBER") {
-    header('Location: mobil.php');
-    exit;
-}
-
 require 'layout/header.php';
 require 'layout/navbar.php';
 require 'layout/sidebar.php';
@@ -21,7 +16,6 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['submit'])) {
   require 'config/db.php';
   try {
     $sql = 'SELECT * FROM list_harga WHERE 1=1 ';
-    $sql = 'SELECT * FROM list_harga WHERE 1=1';
     $params = [];
     
     if (isset($_GET['muat'])) {
@@ -40,6 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['submit'])) {
         $sql .= " AND mobil_id = :mobil_id";
         $params[':mobil_id'] = $_GET['mobil'];
     }
+
     
     // Execute the query with prepared statements
     $stmt = $db->prepare($sql);
@@ -95,7 +90,7 @@ $selectedMobil = isset($_GET['mobil']) ? $_GET['mobil'] : '';
           <div class="card">
             <div class="card-body">
               <!-- General Form Elements -->
-              <form method="get" action="#search-result" onsubmit="return validateForm()">
+              <form id="" method="get" action="" onsubmit="">
                   <div class="row mb-3">
                       <label for="select-muat" class="col-sm-2 col-form-label">Muat</label>
                       <div class="col-sm-10">
@@ -165,6 +160,7 @@ $selectedMobil = isset($_GET['mobil']) ? $_GET['mobil'] : '';
                           <?php endif; ?>
                           <?php unset($_SESSION['error']); ?>
                           <button type="submit" class="btn btn-primary" style="width: 100px;">Cari</button>
+                          <button type="button" class="btn btn-secondary" style="width: 100px;" onclick="resetFilters()">Reset</button>
                       </div>
                   </div>
               </form>
@@ -306,6 +302,24 @@ $selectedMobil = isset($_GET['mobil']) ? $_GET['mobil'] : '';
 
         window.history.replaceState({}, '', `${window.location.pathname}?${params}`);
     }
+
+    function resetFilters() {
+        document.getElementById('select-muat').value = '';
+        document.getElementById('select-bongkar').value = '';
+        document.getElementById('vendor').value = '';
+        document.getElementById('mobil').value = '';
+
+        var params = new URLSearchParams(window.location.search);
+        params.delete('muat');
+        params.delete('bongkar');
+        params.delete('vendor');
+        params.delete('mobil');
+        params.delete('submit');
+      
+        window.location.href = `${window.location.pathname}?${params}`
+
+        // window.history.replaceState({}, '', `${window.location.pathname}?${params}`);
+  }
   </script>
   <!-- ======= Footer ======= -->
   <?php

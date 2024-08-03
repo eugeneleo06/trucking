@@ -1,7 +1,7 @@
   <!-- ======= Footer ======= -->
   <footer id="footer" class="footer">
     <div class="copyright">
-      &copy; Copyright <strong><span>PT. Armada Transport Mandiri</span></strong>. All Rights Reserved
+      &copy; Copyright <strong><span>PT. Mega Jaya Transindo</span></strong>. All Rights Reserved
     </div>
   </footer><!-- End Footer -->
 

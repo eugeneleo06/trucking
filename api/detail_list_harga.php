@@ -6,10 +6,10 @@ if (!isset($_SESSION['username'])) {
     exit;
 }
 
-if ($_SESSION['role'] == "MEMBER") {
-    header('Location: ../upsert_list_harga.php');
-    exit;
-}
+// if ($_SESSION['role'] == "MEMBER") {
+//     header('Location: ../upsert_list_harga.php');
+//     exit;
+// }
 
 require 'config/db.php';
 
